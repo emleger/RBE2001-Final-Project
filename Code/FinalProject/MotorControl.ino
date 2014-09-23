@@ -1,3 +1,11 @@
+
+#include <Servo.h>
+
+Servo rightDrive;
+Servo leftDrive;
+
+
+
 void setupMotors(){
   rightDrive.attach(rightDrivePort);
   leftDrive.attach(leftDrivePort);

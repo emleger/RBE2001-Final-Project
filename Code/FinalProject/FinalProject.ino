@@ -1,17 +1,13 @@
 
-#include <Servo.h>
 
-Servo rightDrive;
-Servo leftDrive;
-
-int rightDrivePort = 5;
-int leftDrivePort = 6;
-
-
-int lightFR = 1;
-int lightFL = 2;
-int lightRR = 3;
-int lightRL = 4;
+//This section contains all of the configurations for everything on the robot
+  //This include the motor ports, sensor ports, and any other values which are set once at the beginning and not touched again
+const int rightDrivePort = 5;
+const int leftDrivePort = 6;
+const int lightFR = 1;
+const int lightFL = 2;
+const int lightRR = 3;
+const int lightRL = 4;
 
 
 void setup() {
@@ -20,6 +16,6 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly: 
+  followLine(100, 10);
   
 }
