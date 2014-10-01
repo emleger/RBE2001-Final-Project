@@ -1,0 +1,99 @@
+////////////////////////////////////////
+void follow-to-tube(){
+  while(front-bump == 0){
+    drive-forward();
+  }
+  front-bump = 0;
+}
+
+void front-bumpISR(){
+  front-bump = 1;
+}
+
+////////////////////////////////////////
+
+void pick-up-rod(){
+  rotate-claw(args);
+  openclaw();
+  lower-arm(args);
+  closeclaw();
+  raise-arm(args);
+  alarm-on(0);
+}
+void alarm-on(int lvl){
+  555pin(HIGH);
+  if (lvl == 0){
+  //send bluetooth mesg for low radiation
+  }
+  else{
+    //send bluetooth mesg for high radiation
+}
+void alarm-off(){
+  555pin(LOW);
+  //clear bluetooth mesg for low radiation
+}
+void set-crossroads(){
+}
+
+void go-to-crossroad(){
+}
+
+void insert-rod(){
+  rotate-claw(args);
+  while( upper-arm != 1) raise_arm(args);
+  while( front-bump != 1) follow-to-tube();
+  if (rod-replaced == true) {
+    low-alarm-off();
+    openclaw();
+  }
+  else{
+    while ((rear-left-IR == 0) && (rear-right-IR == 0)) reverse();
+    insert-rod();
+  }
+}
+
+void go-to-rod(){
+  if (empty-loc > current-loc){
+    turn-left();
+    last-turn = "left";
+    crossroads = abs(current-loc - empty-loc);
+    go-to-crossroad(crossroads);
+    turn(last-turn);
+  }
+  else if (empty-loc < current-loc){
+    turn-right();
+    last-turn = "right";
+    crossroads = abs(current-loc - empty-loc);
+    go-to-crossroad(crossroads);
+    turn(last-turn);
+  }
+  else {
+    turn180();
+    last-turn = "180";
+    turn(last-turn);
+  }
+  get-fresh-rod();
+}
+
+void get-fresh-rod(){
+  follow-to-tube();
+  closeclaw();
+  while ((rear-left-IR == 0) && (rear-right-IR == 0)) reverse();
+  if (//verify rod is missing from tube location//){
+    high-alarm-on();
+  }
+  else {
+    openclaw();
+    get-fresh-rod();
+  }
+}
+
+void replace-rod(){
+  follow-to-tube();
+  rotate-claw(args);
+  lower-arm();
+  openclaw();
+  high-alarm-off();
+  while ((rear-left-IR == 0) && (rear-right-IR == 0)) reverse();
+  turn180();
+}
